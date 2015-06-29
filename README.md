@@ -5,6 +5,11 @@ basics of a simple HTTP app.
 
 Pieces of this were found all over the place.
 
+## Setup
+
+1. Create a MySQL database.
+2. Execute the script(s) in the `db` directory in the database.
+
 ## Configuration
 
 See `conf/example.conf.sample`
