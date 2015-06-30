@@ -1,9 +1,8 @@
 # Go Books App
 
-A play Go web app using Mysql and config file parsing, DB access, and a the
-basics of a simple HTTP app.
+A play Go web app using Mysql and config file parsing, JSON serialization.
 
-Pieces of this were found all over the place.
+This app was put together from various nice pieces from various places.
 
 ## Setup
 
@@ -14,11 +13,15 @@ Pieces of this were found all over the place.
 
 See `conf/example.conf.sample`
 
-## Starting The Server (Development)
+## Start Server (Development)
 
 Assuming you have a `conf/local.conf`
 
     go run config.go models.go handlers.go server.go --config ./conf/local.conf
+
+## Start Server (Compiled)
+
+    gobooksapp -config ./conf/your-config.conf
 
 ## License
 
