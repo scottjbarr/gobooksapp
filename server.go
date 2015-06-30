@@ -14,12 +14,14 @@ var db *sql.DB
 var config *Config
 
 func init() {
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
+
 	configFile := flag.String("config", "", "Config file")
 
 	flag.Parse()
 
 	if *configFile == "" {
-		fmt.Println("A --config must be given. See config/example.conf")
+		fmt.Println("A --config must be given. See config/example.conf.sample")
 		os.Exit(1)
 	}
 
@@ -37,11 +39,15 @@ func init() {
 	}
 }
 
+func Log(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
+		handler.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	http.HandleFunc("/books", BooksIndex)
-
-	bindAddress := fmt.Sprintf("%v:%v", config.HTTP.Address, config.HTTP.Port)
-	log.Printf("Listening on %v\n", bindAddress)
-
-	http.ListenAndServe(bindAddress, nil)
+	log.Printf("Listening on %v\n", config.getHTTPBindAddress())
+	http.ListenAndServe(config.getHTTPBindAddress(), Log(http.DefaultServeMux))
 }
