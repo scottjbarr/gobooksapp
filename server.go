@@ -1,16 +1,16 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
 	"os"
 )
 
-var db *sql.DB
+var db gorm.DB
 var config *Config
 
 func init() {
@@ -28,13 +28,13 @@ func init() {
 	config = ParseConfig(*configFile)
 
 	var err error
-	db, err = sql.Open("mysql", config.DB.URL)
+	db, err = gorm.Open("mysql", config.DB.URL)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err = db.Ping(); err != nil {
+	if err = db.DB().Ping(); err != nil {
 		log.Fatal(err)
 	}
 }

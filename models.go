@@ -1,8 +1,8 @@
 package main
 
 type Book struct {
-	isbn   string
-	title  string
-	author string
-	price  float32
+	ISBN   string  `gorm:"column:isbn;primary_key"`
+	Title  string  `gorm:"column:title"`
+	Author string  `gorm:"column:author"`
+	Price  float32 `gorm:"column:price"`
 }
