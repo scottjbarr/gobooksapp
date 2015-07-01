@@ -1,5 +1,6 @@
 package main
 
+// Book struct for the books table
 type Book struct {
 	ISBN   string  `gorm:"column:isbn;primary_key"`
 	Title  string  `gorm:"column:title"`

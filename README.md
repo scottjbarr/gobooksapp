@@ -2,7 +2,8 @@
 
 A play Go web app using Mysql and config file parsing, JSON serialization.
 
-This app was put together from various nice pieces from various places.
+This app was put together from various nice pieces from a number of posts
+and docs I found.
 
 ## Setup
 
@@ -13,11 +14,15 @@ This app was put together from various nice pieces from various places.
 
 See `conf/example.conf.sample`
 
+## Testing
+
+    go test github.com/scottjbarr/gobooksapp
+
 ## Start Server (Development)
 
 Assuming you have a `conf/local.conf`
 
-    go run config.go models.go handlers.go server.go --config ./conf/local.conf
+    go run config.go models.go handlers.go server.go -config ./conf/local.conf
 
 ## Start Server (Compiled)
 

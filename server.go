@@ -17,7 +17,7 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 }
 
-func Log(handler http.Handler) http.Handler {
+func logger(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
 		handler.ServeHTTP(w, r)
@@ -25,8 +25,8 @@ func Log(handler http.Handler) http.Handler {
 }
 
 func main() {
-	// nicer if this is in init() but that breaks testing because init()
-	// doesn't know/care that a test is running.
+	// It is nicer when this is in init() but that breaks testing because
+	// the "config" flag is required, so we need to handle that in main().
 	configFile := flag.String("config", "", "Config file")
 
 	flag.Parse()
@@ -50,6 +50,10 @@ func main() {
 	}
 
 	http.HandleFunc("/books", BooksIndex)
+
 	log.Printf("Listening on %v\n", config.GetHTTPBindAddress())
-	http.ListenAndServe(config.GetHTTPBindAddress(), Log(http.DefaultServeMux))
+
+	http.ListenAndServe(
+		config.GetHTTPBindAddress(),
+		logger(http.DefaultServeMux))
 }
