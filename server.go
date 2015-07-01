@@ -15,7 +15,18 @@ var config *Config
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
+}
 
+func Log(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
+		handler.ServeHTTP(w, r)
+	})
+}
+
+func main() {
+	// nicer if this is in init() but that breaks testing because init()
+	// doesn't know/care that a test is running.
 	configFile := flag.String("config", "", "Config file")
 
 	flag.Parse()
@@ -37,17 +48,8 @@ func init() {
 	if err = db.DB().Ping(); err != nil {
 		log.Fatal(err)
 	}
-}
 
-func Log(handler http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
-		handler.ServeHTTP(w, r)
-	})
-}
-
-func main() {
 	http.HandleFunc("/books", BooksIndex)
-	log.Printf("Listening on %v\n", config.getHTTPBindAddress())
-	http.ListenAndServe(config.getHTTPBindAddress(), Log(http.DefaultServeMux))
+	log.Printf("Listening on %v\n", config.GetHTTPBindAddress())
+	http.ListenAndServe(config.GetHTTPBindAddress(), Log(http.DefaultServeMux))
 }

@@ -7,17 +7,21 @@ import (
 	"log"
 )
 
-type Config struct {
-	DB struct {
-		URL string
-	}
-	HTTP struct {
-		Address string
-		Port    int
-	}
+type DB struct {
+	URL string
 }
 
-func (c *Config) getHTTPBindAddress() string {
+type HTTP struct {
+	Address string
+	Port    int
+}
+
+type Config struct {
+	DB
+	HTTP
+}
+
+func (c *Config) GetHTTPBindAddress() string {
 	return fmt.Sprintf("%v:%v", c.HTTP.Address, c.HTTP.Port)
 }
 
