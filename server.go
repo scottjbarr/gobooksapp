@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
@@ -49,11 +50,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/books", BooksIndex)
+	// main router
+	router := mux.NewRouter()
+
+	// sub router for /api/v1
+	api := router.PathPrefix("/api/v1").Subrouter()
+	api.HandleFunc("/books", BooksIndex).Methods("GET")
 
 	log.Printf("Listening on %v\n", config.GetHTTPBindAddress())
 
-	http.ListenAndServe(
-		config.GetHTTPBindAddress(),
-		logger(http.DefaultServeMux))
+	http.ListenAndServe(config.GetHTTPBindAddress(), logger(router))
 }

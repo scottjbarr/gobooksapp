@@ -28,6 +28,12 @@ Assuming you have a `conf/local.conf`
 
     gobooksapp -config ./conf/your-config.conf
 
+## Send a Request
+
+Assuming you are listening on the given address per your config file...
+
+    curl http://127.0.0.1:8080/books
+
 ## License
 
 The MIT License (MIT)
