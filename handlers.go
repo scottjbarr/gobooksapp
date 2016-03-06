@@ -7,11 +7,6 @@ import (
 
 // BooksIndex responds to index requests for the Book resource
 func BooksIndex(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, http.StatusText(405), 405)
-		return
-	}
-
 	var bks []*Book
 	err := db.Find(&bks)
 

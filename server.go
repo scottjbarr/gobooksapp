@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
@@ -40,7 +40,7 @@ func main() {
 	config = ParseConfig(*configFile)
 
 	var err error
-	db, err = gorm.Open("mysql", config.DB.URL)
+	db, err = gorm.Open("postgres", config.DB.URL)
 
 	if err != nil {
 		log.Fatal(err)

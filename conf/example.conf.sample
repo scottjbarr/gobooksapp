@@ -1,5 +1,5 @@
 [DB]
-URL=username:password@/gobooksapp_development
+URL=user=you dbname=gobooksapp_development sslmode=disable
 
 [HTTP]
 Address=127.0.0.1

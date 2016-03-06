@@ -7,7 +7,7 @@ and docs I found.
 
 ## Setup
 
-1. Create a MySQL database.
+1. Create a PostgreSQL database.
 2. Execute the script(s) in the `db` directory in the database.
 
 ## Configuration
